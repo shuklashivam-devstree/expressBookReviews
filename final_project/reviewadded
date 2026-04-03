@@ -1,0 +1,5 @@
+curl -X PUT
+-H "Content-Type: application/json" \
+-b cookies.txt \
+-d '{"review":"This book is very good"}'
+{"message":"Review added/updated successfully","reviews":{"shivam":"This book is very good"}}
