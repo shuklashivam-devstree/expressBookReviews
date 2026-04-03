@@ -1,0 +1,2 @@
+-X DELETE http://localhost:5000/customer/auth/review/2 -b cookies.txt
+{"message":"Review deleted successfully","reviews":{}}

@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require("axios");
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
@@ -74,6 +75,86 @@ public_users.get("/review/:isbn", function (req, res) {
   }
 
   return res.status(200).json(book.reviews || {});
+});
+
+// Axios-based endpoints (using async/await and Promise callback syntax)
+// 1) Get list of books available in the shop (async/await)
+public_users.get("/axios/books", async function (req, res) {
+  try {
+    const response = await axios.get("http://localhost:5000/");
+    return res.status(200).json({ source: "axios", data: response.data });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Unable to fetch book list", error: error.message });
+  }
+});
+
+// 2) Get book details based on ISBN (Promise .then/.catch)
+public_users.get("/axios/isbn/:isbn", function (req, res) {
+  const isbn = req.params.isbn;
+  axios
+    .get(`http://localhost:5000/isbn/${isbn}`)
+    .then((response) => {
+      return res.status(200).json({ source: "axios", data: response.data });
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 404) {
+        return res.status(404).json({ message: "Book not found" });
+      }
+      return res
+        .status(500)
+        .json({
+          message: "Unable to fetch book by ISBN",
+          error: error.message,
+        });
+    });
+});
+
+// 3) Get book details based on author (async/await)
+public_users.get("/axios/author/:author", async function (req, res) {
+  const author = req.params.author;
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/author/${encodeURIComponent(author)}`,
+    );
+    return res.status(200).json({ source: "axios", data: response.data });
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      return res
+        .status(404)
+        .json({ message: "No books found for given author" });
+    }
+    return res
+      .status(500)
+      .json({
+        message: "Unable to fetch books by author",
+        error: error.message,
+      });
+  }
+});
+
+// 4) Get book details based on title (Promise .then/.catch)
+public_users.get("/axios/title/:title", function (req, res) {
+  const title = req.params.title;
+  axios
+    .get(`http://localhost:5000/title/${encodeURIComponent(title)}`)
+    .then((response) => {
+      return res.status(200).json({ source: "axios", data: response.data });
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 404) {
+        return res
+          .status(404)
+          .json({ message: "No books found for given title" });
+      }
+      return res
+        .status(500)
+        .json({
+          message: "Unable to fetch books by title",
+          error: error.message,
+        });
+    });
 });
 
 module.exports.general = public_users;
