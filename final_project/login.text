@@ -1,0 +1,11 @@
+
+when enter wrong credentials
+
+curl -X POST http://localhost:5000/customer/login -H "Content-Type: application/json" -d '{"
+username":"shivam","password":"1245"}'
+{"message":"Invalid credentials"}
+
+when enter correct credentials
+
+curl -X POST http://loc//localhost:5000/customer/login -H "Content-Type: application/json" -d '{"username":"shivam","password":"12345"}'
+{"message":"User successfully logged in","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNoaXZhbSIsImlhdCI6MTc3NTE5NzAxNiwiZXhwIjoxNzc1MjAwNjE2fQ.D48VmUo3ejkJcJ60EDMkYpc5PY50yEJc-hdpGZ0VsSk"}

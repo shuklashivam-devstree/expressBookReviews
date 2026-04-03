@@ -1,0 +1,8 @@
+curl -X POST http://localhost:5000/register \ 
+-H "Content-Type: application/json" \
+-d '{"username":"shivam","password":"12345"}'
+{"message":"User successfully registered"}
+
+when run twice the same command got error as mention in task 6
+curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"shivam","password":"12345"}'
+{"message":"Username already exists"}
