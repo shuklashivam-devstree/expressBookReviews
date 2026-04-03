@@ -102,12 +102,10 @@ public_users.get("/axios/isbn/:isbn", function (req, res) {
       if (error.response && error.response.status === 404) {
         return res.status(404).json({ message: "Book not found" });
       }
-      return res
-        .status(500)
-        .json({
-          message: "Unable to fetch book by ISBN",
-          error: error.message,
-        });
+      return res.status(500).json({
+        message: "Unable to fetch book by ISBN",
+        error: error.message,
+      });
     });
 });
 
@@ -125,12 +123,10 @@ public_users.get("/axios/author/:author", async function (req, res) {
         .status(404)
         .json({ message: "No books found for given author" });
     }
-    return res
-      .status(500)
-      .json({
-        message: "Unable to fetch books by author",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Unable to fetch books by author",
+      error: error.message,
+    });
   }
 });
 
@@ -148,12 +144,10 @@ public_users.get("/axios/title/:title", function (req, res) {
           .status(404)
           .json({ message: "No books found for given title" });
       }
-      return res
-        .status(500)
-        .json({
-          message: "Unable to fetch books by title",
-          error: error.message,
-        });
+      return res.status(500).json({
+        message: "Unable to fetch books by title",
+        error: error.message,
+      });
     });
 });
 
